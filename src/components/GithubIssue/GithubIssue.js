@@ -23,7 +23,10 @@ export default function GithubIssue() {
   }
 
   return (
-    <div>
+    <div className="github-issue">
+      <h3>
+        Issue #{issue.number}: {issue.title}
+      </h3>
       <CommentItem item={issue} />
       {loading ? (
         <LinearProgress />

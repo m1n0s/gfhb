@@ -15,7 +15,7 @@ class GitHubAPI {
     return this.axios.get('/search/users', {
       params: {
         q,
-        per_page: 25,
+        per_page: 15,
       },
     });
   }
@@ -29,7 +29,7 @@ class GitHubAPI {
 
     return this.axios.get(issuesUrl, {
       params: {
-        per_page: 25,
+        per_page: 10,
       },
     });
   }
@@ -37,7 +37,7 @@ class GitHubAPI {
   readIssueComments(issue) {
     return this.axios.get(issue.comments_url, {
       params: {
-        per_page: 25,
+        per_page: 30,
       },
     });
   }

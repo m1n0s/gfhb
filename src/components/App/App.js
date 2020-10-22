@@ -42,6 +42,7 @@ function App() {
     return () => document.removeEventListener('selectionchange', debounced);
   }, [dispatch, pickedIssue]);
 
+  // TODO add routing for better UI/UX
   return (
     <div className="app">
       <header className="app-header">GifHub</header>
