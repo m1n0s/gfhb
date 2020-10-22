@@ -1,0 +1,10 @@
+.users-repos-row {
+    margin-bottom: 20px;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.users-repos-row .github-autocomplete {
+   width: 45%;
+}

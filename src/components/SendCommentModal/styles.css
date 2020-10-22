@@ -1,0 +1,21 @@
+.dialog-title {
+    position: relative;
+}
+
+.dialog-title-text {
+    padding-right: 40px;
+}
+
+.dialog-title .close-icon {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+.loading-wrapper {
+    text-align: center;
+}
+
+.comment-preview {
+    overflow: auto;
+}

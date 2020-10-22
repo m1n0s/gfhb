@@ -1,0 +1,50 @@
+html, body, #root {
+  height: 100%;
+  user-select: none;
+
+  --header-height: 78px;
+}
+
+blockquote {
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+  padding: 5px 10px;
+  margin-left: 0;
+}
+
+blockquote p {
+  margin: 2px 0;
+}
+
+.app {
+  position: relative;
+  height: 100%;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #282c34;
+  text-align: center;
+  padding: 20px 0;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  z-index: 10;
+}
+
+.app-main {
+  padding-top: var(--header-height);
+  max-width: 1000px;
+  margin: 20px auto 0;
+}
+
+/* MUI overrides due to business logic */
+.MuiDialog-root {
+  pointer-events: none;
+}
+
+.MuiDialog-root .MuiPaper-root.MuiDialog-paper {
+  pointer-events: all;
+}

@@ -1,0 +1,13 @@
+.issues-list-header {
+    margin-bottom: 5px;
+}
+.issue-item-icon-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.issue-item-icon-wrapper .comments-count {
+    display: inline-block;
+    margin-left: 3px;
+    margin-top: 2px;
+}

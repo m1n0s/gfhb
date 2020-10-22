@@ -1,0 +1,15 @@
+.comment {
+    user-select: text;
+}
+
+.comment:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.comment .comment-header {
+    padding-bottom: 0;
+}
+
+.comment .comment-content {
+    padding-top: 0;
+}
