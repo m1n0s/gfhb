@@ -12,10 +12,13 @@ export default function IssueItem({ issue, onClick }) {
     onClick(issue);
   };
 
+  // +1 for issue body
+  const commentsCount = comments + 1;
+
   return (
     <ListItem onClick={handleClick} button>
       <ListItemIcon className="issue-item-icon-wrapper">
-        <Badge badgeContent={comments} color="primary">
+        <Badge badgeContent={commentsCount} color="primary">
           <MessageIcon />
         </Badge>
       </ListItemIcon>

@@ -29,6 +29,7 @@ import {
   selectPickedIssue,
   postIssueComment,
   getIssueComments,
+  getRepoIssues,
 } from '../../store/githubSlice';
 
 import './styles.css';
@@ -92,10 +93,13 @@ export default function SendCommentModal({ selectedText, selectedGif }) {
         </div>
       );
 
-      dispatch(getIssueComments(pickedIssue));
+      dispatch(getRepoIssues(pickedRepo, true));
+      dispatch(getIssueComments(pickedIssue, true));
     } catch (message) {
-      setPostCommentInProgress(false);
       showToast('error', message);
+    } finally {
+      // Stupid hack I hate to have but it's a quick win to allow Dialog hide before loader disappears and show old content
+      setTimeout(() => setPostCommentInProgress(false), 100);
     }
   };
 
@@ -165,6 +169,7 @@ export default function SendCommentModal({ selectedText, selectedGif }) {
         </DialogContent>
         <DialogActions>
           <Button
+            disableFocusRipple
             color="default"
             variant="contained"
             onClick={handleDialogClose}
@@ -173,6 +178,7 @@ export default function SendCommentModal({ selectedText, selectedGif }) {
             Close
           </Button>
           <Button
+            disableFocusRipple
             autoFocus
             color="primary"
             variant="contained"

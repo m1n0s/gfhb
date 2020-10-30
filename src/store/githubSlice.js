@@ -24,8 +24,6 @@ export const githubSlice = createSlice({
     pickedIssue: null,
 
     comments: [],
-
-    postingCommentLoading: false,
   },
   reducers: {
     setUsersLoading: (state, action) => {
@@ -75,6 +73,13 @@ export const githubSlice = createSlice({
     setComments: (state, action) => {
       state.comments = action.payload;
     },
+    addComment: (state, action) => {
+      const issue = state.issues.find(({ id }) => id === state.pickedIssue?.id);
+
+      issue.comments += 1;
+
+      state.comments.push(action.payload);
+    },
   },
 });
 
@@ -91,11 +96,16 @@ export const {
   pickIssue,
   setCommentsLoading,
   setComments,
+  addComment,
 } = githubSlice.actions;
 
 /* Async actions */
 export const findUsers = (term) => async (dispatch) => {
   try {
+    if (!term) {
+      return dispatch(setUsers([]));
+    }
+
     dispatch(setUsersLoading(true));
     dispatch(setUsers([]));
 
@@ -128,41 +138,51 @@ export const getUserRepos = (user) => async (dispatch) => {
   }
 };
 
-export const getRepoIssues = (repo) => async (dispatch) => {
+export const getRepoIssues = (repo, silent = false) => async (dispatch) => {
   try {
-    dispatch(setIssuesLoading(true));
-    dispatch(setIssues([]));
+    if (!silent) {
+      dispatch(setIssuesLoading(true));
+      dispatch(setIssues([]));
+    }
 
-    const { data: issues } = await GitHubAPI.readRepoIssues(repo);
+    const { data: issues } = await GitHubAPI.readRepoIssues(repo, silent);
 
     dispatch(setIssues(issues));
   } catch (error) {
     // TODO dispatch error for UI
     dispatch(setIssues([]));
   } finally {
-    dispatch(setIssuesLoading(false));
+    if (!silent) {
+      dispatch(setIssuesLoading(false));
+    }
   }
 };
 
-export const getIssueComments = (issue) => async (dispatch) => {
+export const getIssueComments = (issue, silent = false) => async (dispatch) => {
   try {
-    dispatch(setCommentsLoading(true));
-    dispatch(setComments([]));
+    if (!silent) {
+      dispatch(setCommentsLoading(true));
+      dispatch(setComments([]));
+    }
 
-    const { data: comments } = await GitHubAPI.readIssueComments(issue);
+    const { data: comments } = await GitHubAPI.readIssueComments(issue, silent);
 
     dispatch(setComments(comments));
   } catch (error) {
     // TODO dispatch error for UI
     dispatch(setIssues([]));
   } finally {
-    dispatch(setCommentsLoading(false));
+    if (!silent) {
+      dispatch(setCommentsLoading(false));
+    }
   }
 };
 
-export const postIssueComment = (issue, commentBody) => async () => {
+export const postIssueComment = (issue, commentBody) => async (dispatch) => {
   try {
     const { data } = await GitHubAPI.postIssueComment(issue, commentBody);
+
+    dispatch(addComment(data));
 
     return data;
   } catch (error) {

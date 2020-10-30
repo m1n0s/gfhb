@@ -11,6 +11,14 @@ class GitHubAPI {
     });
   }
 
+  static getNoCacheHeaders() {
+    return {
+      headers: {
+        'If-None-Match': '', // https://github.com/octokit/rest.js/issues/890#issuecomment-392193948
+      },
+    };
+  }
+
   findUsers(q) {
     return this.axios.get('/search/users', {
       params: {
@@ -24,21 +32,23 @@ class GitHubAPI {
     return this.axios.get(user.repos_url);
   }
 
-  readRepoIssues(repo) {
+  readRepoIssues(repo, noCache = false) {
     const issuesUrl = repo.issues_url.replace('{/number}', '');
 
     return this.axios.get(issuesUrl, {
       params: {
         per_page: 10,
       },
+      ...(noCache ? GitHubAPI.getNoCacheHeaders() : null),
     });
   }
 
-  readIssueComments(issue) {
+  readIssueComments(issue, noCache = false) {
     return this.axios.get(issue.comments_url, {
       params: {
         per_page: 30,
       },
+      ...(noCache ? GitHubAPI.getNoCacheHeaders() : null),
     });
   }
 
